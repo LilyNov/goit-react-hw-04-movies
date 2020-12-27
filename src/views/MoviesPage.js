@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
 import Searchbar from '../Searchbar/Searchbar';
 import PropTypes from 'prop-types';
-// import ImageGallery from './ImageGallery/ImageGallery';
-import moviesAPI from '../service/home-app';
+import * as moviesAPI from '../service/home-app';
 import Loader from '../Loader/Loader';
 import StatusError from '../StatusError/StatusError';
 // import Button from './Button/Button';
@@ -23,14 +22,15 @@ export default function MoviesPage() {
     setStatus('pending');
 
     moviesAPI
-      .fetchMovies(query, page)
+      .fetchMoviesSearch(query, page)
       //   .then(newMovies => {
       //     setImages(prevMovies => [...prevMovies, ...newMovies.hits]);
       //     setStatus('resolved');
       //   })
 
-      .then(newImages => {
-        console.log(newImages.results);
+      .then(newMovies => {
+        setMovies(newMovies);
+        setStatus('resolved');
       })
       .catch(error => {
         setError(error);
@@ -57,8 +57,10 @@ export default function MoviesPage() {
       {status === 'resolved' && (
         <>
           <ul>
-            {movies.results.map(movie => (
-              <li key={movie.id}>{movie.id}</li>
+            {movies.results.map(({ id, title, name }) => (
+              <li key={id}>
+                {name} {title}
+              </li>
             ))}
           </ul>
         </>
@@ -66,18 +68,6 @@ export default function MoviesPage() {
       <ToastContainer autoClose={3000} />
     </div>
   );
-}
-
-{
-  /* <li className={s.ImageGalleryItem}>
-  <img
-    onClick={this.toggleModal}
-    src={src}
-    alt={alt}
-    className={s.ImageGalleryItemImage}
-  />
-  {showModal && <Modal onClose={this.toggleModal} src={modalImg} alt={alt} />}
-</li>; */
 }
 
 MoviesPage.propTypes = {
