@@ -1,18 +1,19 @@
 import { useState, useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
+import { Link, useRouteMatch } from 'react-router-dom';
 import Searchbar from '../Searchbar/Searchbar';
 import PropTypes from 'prop-types';
 import * as moviesAPI from '../service/home-app';
 import Loader from '../Loader/Loader';
 import StatusError from '../StatusError/StatusError';
-// import Button from './Button/Button';
+// import { createBrowserHistory } from 'history';
 
 export default function MoviesPage() {
   const [query, setQuery] = useState('');
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState(null);
   const [status, setStatus] = useState('idle');
-  const [page, setPage] = useState(1);
+  const { url } = useRouteMatch();
 
   useEffect(() => {
     if (!query) {
@@ -22,12 +23,7 @@ export default function MoviesPage() {
     setStatus('pending');
 
     moviesAPI
-      .fetchMoviesSearch(query, page)
-      //   .then(newMovies => {
-      //     setImages(prevMovies => [...prevMovies, ...newMovies.hits]);
-      //     setStatus('resolved');
-      //   })
-
+      .fetchMoviesSearch(query)
       .then(newMovies => {
         setMovies(newMovies);
         setStatus('resolved');
@@ -36,15 +32,11 @@ export default function MoviesPage() {
         setError(error);
         setStatus('rejected');
       });
-  }, [query, page]);
-
-  //   const onClickLoadMoreBtn = () => {
-  //     setPage(page => page + 1);
-  //   };
+  }, [query]);
 
   return (
     <div>
-      <Searchbar getMovies={setQuery} getPage={setPage} getRender={setMovies} />
+      <Searchbar getMovies={setQuery} getRender={setMovies} />
 
       {status === 'idle' && <p style={{ textAlign: 'center' }}>Let's Go!</p>}
 
@@ -59,7 +51,9 @@ export default function MoviesPage() {
           <ul>
             {movies.results.map(({ id, title, name }) => (
               <li key={id}>
-                {name} {title}
+                <Link to={`${url}/${id}`}>
+                  {name} {title}
+                </Link>
               </li>
             ))}
           </ul>
@@ -71,5 +65,5 @@ export default function MoviesPage() {
 }
 
 MoviesPage.propTypes = {
-  imgItem: PropTypes.string,
+  query: PropTypes.string,
 };

@@ -1,30 +1,33 @@
+import { NavLink, Route, useParams, useRouteMatch } from 'react-router-dom';
+
 import { useState, useEffect } from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
 import * as moviesAPI from '../service/home-app';
 import StatusError from '../StatusError/StatusError';
 
-// import Button from '../Button/Button';
-
-export default function HomePage() {
-  const [movies, setMovies] = useState([]);
+export default function Cast() {
+  const [actors, setActors] = useState(null);
   const [error, setError] = useState(null);
   const [status, setStatus] = useState('idle');
+  //   const { url } = useRouteMatch();
+  const { movieId } = useParams();
   const { url } = useRouteMatch();
+
+  //   console.log(url);
 
   useEffect(() => {
     setStatus('pending');
 
     moviesAPI
-      .fetchMoviesHomePage()
-      .then(newMovies => {
-        setMovies(newMovies);
+      .fetchActorsInfo(movieId)
+      .then(actors => {
+        setActors(actors);
         setStatus('resolved');
       })
       .catch(error => {
         setError(error);
         setStatus('rejected');
       });
-  }, []);
+  }, [movieId]);
 
   return (
     <div>
@@ -35,11 +38,9 @@ export default function HomePage() {
       {status === 'resolved' && (
         <>
           <ul>
-            {movies.results.map(({ id, title, name }) => (
-              <li key={id}>
-                <Link to={`${url}${id}`}>
-                  {name} {title}
-                </Link>
+            {actors.cast.map(actor => (
+              <li key={actor.name}>
+                <NavLink to={`${url}/${actor.id}`}>{actor.name}</NavLink>
               </li>
             ))}
           </ul>
@@ -48,3 +49,7 @@ export default function HomePage() {
     </div>
   );
 }
+
+//  <Route path="/movies/:movieId/cast">
+//    <Cast />
+//  </Route>;

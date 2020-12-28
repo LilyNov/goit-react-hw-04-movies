@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import s from '../Searchbar/Searchbar.module.css';
 
-export default function Searchbar({ getMovies, getPage, getRender }) {
+export default function Searchbar({ getMovies, getRender }) {
   const [movies, setMovies] = useState('');
 
   //получение значения input
@@ -22,7 +22,6 @@ export default function Searchbar({ getMovies, getPage, getRender }) {
     }
 
     getMovies(movies);
-    getPage(1);
     setMovies('');
     getRender([]);
   };
@@ -35,7 +34,7 @@ export default function Searchbar({ getMovies, getPage, getRender }) {
           type="text"
           autoComplete="off"
           autoFocus
-          placeholder="Search movies and photos"
+          placeholder="Search movies"
           value={movies}
           onChange={handleNameChange}
         />

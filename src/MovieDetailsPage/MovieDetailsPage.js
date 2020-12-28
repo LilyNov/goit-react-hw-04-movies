@@ -1,21 +1,25 @@
+import { Route, useParams } from 'react-router-dom';
+// import { Link, useRouteMatch } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { Link, useRouteMatch } from 'react-router-dom';
 import * as moviesAPI from '../service/home-app';
 import StatusError from '../StatusError/StatusError';
+import CardOfMovie from '../CardOfMovie/CardOfMovie';
+import Cast from '../Cast/Cast';
 
-// import Button from '../Button/Button';
-
-export default function HomePage() {
+export default function MovieDetailsPage() {
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState(null);
   const [status, setStatus] = useState('idle');
-  const { url } = useRouteMatch();
+  //   const { url } = useRouteMatch();
+  const { movieId } = useParams();
+
+  //   console.log(url);
 
   useEffect(() => {
     setStatus('pending');
 
     moviesAPI
-      .fetchMoviesHomePage()
+      .fetchMoviesInfo(movieId)
       .then(newMovies => {
         setMovies(newMovies);
         setStatus('resolved');
@@ -24,7 +28,7 @@ export default function HomePage() {
         setError(error);
         setStatus('rejected');
       });
-  }, []);
+  }, [movieId]);
 
   return (
     <div>
@@ -34,15 +38,14 @@ export default function HomePage() {
 
       {status === 'resolved' && (
         <>
-          <ul>
-            {movies.results.map(({ id, title, name }) => (
-              <li key={id}>
-                <Link to={`${url}${id}`}>
-                  {name} {title}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <CardOfMovie
+            title={movies.title}
+            popularity={movies.popularity}
+            release={movies.release_date}
+            image={`https://api.themoviedb.org/3/movie/${movieId}/images${movies.backdrop_path}?api_key=f63615632bb4d22515832e1a6cf24a3e&language=en-US`}
+            overview={movies.overview}
+          />
+          <Cast />
         </>
       )}
     </div>
