@@ -38,3 +38,13 @@ export function fetchActorsInfo(movie_id) {
     }
   });
 }
+
+export function fetchReviews(movie_id) {
+  return fetch(
+    `${BASE_URL}/movie/${movie_id}/reviews?api_key=${KEY}&language=en-US&page=1`,
+  ).then(response => {
+    if (response.ok) {
+      return response.json();
+    }
+  });
+}

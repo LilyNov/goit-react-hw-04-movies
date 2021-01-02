@@ -1,19 +1,22 @@
-import { Route, useParams } from 'react-router-dom';
-// import { Link, useRouteMatch } from 'react-router-dom';
+import { Route, useParams, useRouteMatch, NavLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import * as moviesAPI from '../service/home-app';
 import StatusError from '../StatusError/StatusError';
 import CardOfMovie from '../CardOfMovie/CardOfMovie';
 import Cast from '../Cast/Cast';
+import Reviews from '../Reviews/Reviews';
+import s from '../MovieDetailsPage/MovieDetailsPage.module.css';
 
 export default function MovieDetailsPage() {
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState(null);
   const [status, setStatus] = useState('idle');
-  //   const { url } = useRouteMatch();
+  const { url, path } = useRouteMatch();
   const { movieId } = useParams();
+  const movieImg = `https://image.tmdb.org/t/p/w500/${movies.backdrop_path}`;
 
   //   console.log(url);
+  //   console.log(path);
 
   useEffect(() => {
     setStatus('pending');
@@ -35,19 +38,45 @@ export default function MovieDetailsPage() {
       {status === 'rejected' && (
         <StatusError message={error.message} style={{ textAlign: 'center' }} />
       )}
-
       {status === 'resolved' && (
         <>
           <CardOfMovie
             title={movies.title}
             popularity={movies.popularity}
             release={movies.release_date}
-            image={`https://api.themoviedb.org/3/movie/${movieId}/images${movies.backdrop_path}?api_key=f63615632bb4d22515832e1a6cf24a3e&language=en-US`}
+            image={
+              movies.backdrop_path !== null
+                ? movieImg
+                : 'https://dummyimage.com/640x480/2a2a2a/ffffff&text=Foto'
+            }
             overview={movies.overview}
           />
-          <Cast />
+
+          <NavLink
+            to={`${url}/cast`}
+            className={s.link}
+            activeClassName={s.activeLink}
+          >
+            Cast
+          </NavLink>
+          <NavLink
+            to={`${url}/reviews`}
+            className={s.link}
+            activeClassName={s.activeLink}
+          >
+            Reviews
+          </NavLink>
+          <hr />
         </>
       )}
+
+      <Route path={`${path}/cast`}>
+        <Cast />
+      </Route>
+
+      <Route path={`${path}/reviews`}>
+        <Reviews />
+      </Route>
     </div>
   );
 }

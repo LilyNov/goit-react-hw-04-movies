@@ -3,13 +3,10 @@ import { Link, useRouteMatch } from 'react-router-dom';
 import * as moviesAPI from '../service/home-app';
 import StatusError from '../StatusError/StatusError';
 
-// import Button from '../Button/Button';
-
 export default function HomePage() {
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState(null);
   const [status, setStatus] = useState('idle');
-  const { url } = useRouteMatch();
 
   useEffect(() => {
     setStatus('pending');
@@ -35,9 +32,17 @@ export default function HomePage() {
       {status === 'resolved' && (
         <>
           <ul>
-            {movies.results.map(({ id, title, name }) => (
+            {movies.results.map(({ id, title, name, backdrop_path }) => (
               <li key={id}>
-                <Link to={`${url}${id}`}>
+                <img
+                  src={
+                    backdrop_path !== null
+                      ? `https://image.tmdb.org/t/p/w500${backdrop_path}`
+                      : 'https://dummyimage.com/640x480/2a2a2a/ffffff&text=Movie+foto'
+                  }
+                  alt={title}
+                />
+                <Link to={`movies/${id}`}>
                   {name} {title}
                 </Link>
               </li>

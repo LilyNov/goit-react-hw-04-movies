@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react';
 import * as moviesAPI from '../service/home-app';
 import StatusError from '../StatusError/StatusError';
 
-export default function Cast() {
-  const [actors, setActors] = useState(null);
+export default function Reviews() {
+  const [reviews, setReviews] = useState([]);
   const [error, setError] = useState(null);
   const [status, setStatus] = useState('idle');
   const { movieId } = useParams();
@@ -13,11 +13,14 @@ export default function Cast() {
     setStatus('pending');
 
     moviesAPI
-      .fetchActorsInfo(movieId)
-      .then(actors => {
-        console.log(actors);
-        setActors(actors);
-        setStatus('resolved');
+      .fetchReviews(movieId)
+      .then(reviews => {
+        if (reviews.results.length) {
+          setReviews(reviews);
+          setStatus('resolved');
+          return;
+        }
+        return Promise.reject(new Error('Sorry. No information on request'));
       })
       .catch(error => {
         setError(error);
@@ -34,22 +37,12 @@ export default function Cast() {
       {status === 'resolved' && (
         <>
           <ul>
-            {actors.cast.map(({ profile_path, name }) => (
-              <li key={name}>
-                <img
-                  src={
-                    profile_path !== null
-                      ? `https://image.tmdb.org/t/p/w500${profile_path}`
-                      : 'https://dummyimage.com/640x480/2a2a2a/ffffff&text=Foto'
-                  }
-                  alt={name}
-                />
-
-                <p> {name}</p>
+            {reviews.results.map(({ id, content }) => (
+              <li key={id}>
+                <p>{content}</p>
               </li>
             ))}
           </ul>
-          <hr />
         </>
       )}
     </div>

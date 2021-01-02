@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import * as moviesAPI from '../service/home-app';
 import Loader from '../Loader/Loader';
 import StatusError from '../StatusError/StatusError';
-// import { createBrowserHistory } from 'history';
 
 export default function MoviesPage() {
   const [query, setQuery] = useState('');
