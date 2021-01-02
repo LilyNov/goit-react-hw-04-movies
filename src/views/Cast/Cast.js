@@ -1,7 +1,8 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import * as moviesAPI from '../service/home-app';
-import StatusError from '../StatusError/StatusError';
+import * as moviesAPI from '../../service/home-app';
+import StatusError from '../../StatusError/StatusError';
+import s from '../Cast/Cast.module.css';
 
 export default function Cast() {
   const [actors, setActors] = useState(null);
@@ -15,7 +16,6 @@ export default function Cast() {
     moviesAPI
       .fetchActorsInfo(movieId)
       .then(actors => {
-        console.log(actors);
         setActors(actors);
         setStatus('resolved');
       })
@@ -33,10 +33,11 @@ export default function Cast() {
 
       {status === 'resolved' && (
         <>
-          <ul>
+          <ul className={s.ItemList}>
             {actors.cast.map(({ profile_path, name }) => (
-              <li key={name}>
+              <li className={s.ImageGalleryItem} key={name}>
                 <img
+                  className={s.ImageGalleryItemImage}
                   src={
                     profile_path !== null
                       ? `https://image.tmdb.org/t/p/w500${profile_path}`

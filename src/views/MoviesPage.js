@@ -1,38 +1,48 @@
 import { useState, useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
-import { Link, useRouteMatch } from 'react-router-dom';
-import Searchbar from '../Searchbar/Searchbar';
+import { Link, useRouteMatch, useLocation } from 'react-router-dom';
+import Searchbar from './Searchbar/Searchbar';
 import PropTypes from 'prop-types';
 import * as moviesAPI from '../service/home-app';
 import Loader from '../Loader/Loader';
 import StatusError from '../StatusError/StatusError';
 
 export default function MoviesPage() {
-  const [query, setQuery] = useState('');
+  const location = useLocation();
+  const [querySearchParams, setQuery] = useState(
+    new URLSearchParams(location.search).get('query'),
+  );
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState(null);
   const [status, setStatus] = useState('idle');
   const { url } = useRouteMatch();
 
   useEffect(() => {
-    if (!query) {
+    if (!querySearchParams) {
       return;
     }
 
     setStatus('pending');
 
     moviesAPI
-      .fetchMoviesSearch(query)
+      .fetchMoviesSearch(querySearchParams)
       .then(newMovies => {
         console.log(newMovies);
-        setMovies(newMovies);
-        setStatus('resolved');
+        if (newMovies.results.length === 0) {
+          <StatusError
+            message={error.message}
+            style={{ textAlign: 'center' }}
+          />;
+        } else {
+          setMovies(newMovies);
+          setStatus('resolved');
+        }
       })
       .catch(error => {
         setError(error);
         setStatus('rejected');
       });
-  }, [query]);
+  }, [querySearchParams]);
 
   return (
     <div>
@@ -51,7 +61,12 @@ export default function MoviesPage() {
           <ul>
             {movies.results.map(({ id, title, name }) => (
               <li key={id}>
-                <Link to={`${url}/${id}`}>
+                <Link
+                  to={{
+                    pathname: `${url}/${id}`,
+                    state: { from: location },
+                  }}
+                >
                   {name} {title}
                 </Link>
               </li>

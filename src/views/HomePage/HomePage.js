@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import * as moviesAPI from '../service/home-app';
-import StatusError from '../StatusError/StatusError';
+import * as moviesAPI from '../../service/home-app';
+import StatusError from '../../StatusError/StatusError';
+import s from '../HomePage/HomePage.module.css';
 
 export default function HomePage() {
   const location = useLocation();
@@ -32,9 +33,9 @@ export default function HomePage() {
 
       {status === 'resolved' && (
         <>
-          <ul>
+          <ul className={s.ItemList}>
             {movies.results.map(({ id, title, name, backdrop_path }) => (
-              <li key={id}>
+              <li className={s.ImageGalleryItem} key={id}>
                 <Link
                   to={{
                     pathname: `movies/${id}`,
@@ -42,6 +43,7 @@ export default function HomePage() {
                   }}
                 >
                   <img
+                    className={s.ImageGalleryItemImage}
                     src={
                       backdrop_path !== null
                         ? `https://image.tmdb.org/t/p/w500${backdrop_path}`

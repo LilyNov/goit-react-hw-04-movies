@@ -1,7 +1,7 @@
 import { Route, useParams, useRouteMatch, NavLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import * as moviesAPI from '../service/home-app';
-import StatusError from '../StatusError/StatusError';
+import * as moviesAPI from '../../service/home-app';
+import StatusError from '../../StatusError/StatusError';
 import CardOfMovie from '../CardOfMovie/CardOfMovie';
 import Cast from '../Cast/Cast';
 import Reviews from '../Reviews/Reviews';

@@ -1,11 +1,18 @@
 import { useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import { BiSearchAlt } from 'react-icons/bi';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import s from '../Searchbar/Searchbar.module.css';
 
-export default function Searchbar({ getMovies, getRender }) {
+export default function Searchbar({ getMovies }) {
   const [movies, setMovies] = useState('');
+  const history = useHistory();
+  const location = useLocation();
+
+  const handleQueryChange = query => {
+    history.push({ ...location, search: `query=${query}` });
+  };
 
   //получение значения input
   const handleNameChange = e => {
@@ -23,6 +30,7 @@ export default function Searchbar({ getMovies, getRender }) {
 
     getMovies(movies);
     setMovies('');
+    handleQueryChange(movies);
   };
 
   return (

@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import * as moviesAPI from '../service/home-app';
-import StatusError from '../StatusError/StatusError';
+import * as moviesAPI from '../../service/home-app';
+import StatusError from '../../StatusError/StatusError';
 
 export default function Reviews() {
   const [reviews, setReviews] = useState([]);

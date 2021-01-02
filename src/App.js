@@ -5,7 +5,7 @@ import Container from './Container/Container';
 import AppBar from './AppBar/AppBar';
 
 const HomePage = lazy(() =>
-  import('./views/HomePage.js' /*webpackChunkName: "home-page" */),
+  import('./views/HomePage/HomePage.js' /*webpackChunkName: "home-page" */),
 );
 const MoviesPage = lazy(() =>
   import('./views/MoviesPage.js' /*webpackChunkName: "movies-page" */),
@@ -15,7 +15,7 @@ const NotFoundView = lazy(() =>
 );
 const MovieDetailsPage = lazy(() =>
   import(
-    './MovieDetailsPage/MovieDetailsPage.js' /*webpackChunkName: "movieDetails-page" */
+    './views/MovieDetailsPage/MovieDetailsPage.js' /*webpackChunkName: "movieDetails-page" */
   ),
 );
 
