@@ -24,6 +24,7 @@ export default function MoviesPage() {
     moviesAPI
       .fetchMoviesSearch(query)
       .then(newMovies => {
+        console.log(newMovies);
         setMovies(newMovies);
         setStatus('resolved');
       })
@@ -35,7 +36,7 @@ export default function MoviesPage() {
 
   return (
     <div>
-      <Searchbar getMovies={setQuery} getRender={setMovies} />
+      <Searchbar getMovies={setQuery} />
 
       {status === 'idle' && <p style={{ textAlign: 'center' }}>Let's Go!</p>}
 

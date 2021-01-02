@@ -15,9 +15,6 @@ export default function MovieDetailsPage() {
   const { movieId } = useParams();
   const movieImg = `https://image.tmdb.org/t/p/w500/${movies.backdrop_path}`;
 
-  //   console.log(url);
-  //   console.log(path);
-
   useEffect(() => {
     setStatus('pending');
 
