@@ -1,5 +1,8 @@
 import s from '../PartOfCard/PartOfCard.module.css';
 import { Link, useRouteMatch, useLocation } from 'react-router-dom';
+import slugify from 'slugify';
+
+const makeSlug = string => slugify(string, { lower: true });
 
 export default function PartOfCard({ id, title, name, backdrop }) {
   const { url } = useRouteMatch();
@@ -11,7 +14,7 @@ export default function PartOfCard({ id, title, name, backdrop }) {
         <Link
           className={s.link}
           to={{
-            pathname: `${url}/${id}`,
+            pathname: `${url}/${makeSlug(`${title} ${id}`)}`,
             state: { from: location },
           }}
         >

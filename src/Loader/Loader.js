@@ -5,7 +5,7 @@ import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css';
 export default function ImagePendingView() {
   return (
     <Loader
-      type="Grid"
+      type="Audio"
       color="#ff6b08"
       height={80}
       width={80}

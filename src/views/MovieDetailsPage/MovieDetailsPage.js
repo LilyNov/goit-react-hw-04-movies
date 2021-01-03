@@ -12,8 +12,11 @@ export default function MovieDetailsPage() {
   const [error, setError] = useState(null);
   const [status, setStatus] = useState('idle');
   const { url, path } = useRouteMatch();
-  const { movieId } = useParams();
+  const { slug } = useParams();
+  const movieId = slug.match(/[a-zA-Z0-9]+$/)[0];
   const movieImg = `https://image.tmdb.org/t/p/w500/${movies.backdrop_path}`;
+
+  console.log();
 
   useEffect(() => {
     setStatus('pending');
@@ -30,7 +33,6 @@ export default function MovieDetailsPage() {
       });
   }, [movieId]);
 
-  console.log(movies);
   return (
     <div>
       {status === 'rejected' && (

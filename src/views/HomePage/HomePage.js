@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import slugify from 'slugify';
 import * as moviesAPI from '../../service/home-app';
 import StatusError from '../../StatusError/StatusError';
 import s from '../HomePage/HomePage.module.css';
+
+const makeSlug = string => slugify(string, { lower: true });
 
 export default function HomePage() {
   const location = useLocation();
@@ -39,7 +42,7 @@ export default function HomePage() {
                 <Link
                   className={s.link}
                   to={{
-                    pathname: `movies/${id}`,
+                    pathname: `movies/${makeSlug(`${title} ${id}`)}`,
                     state: { from: location },
                   }}
                 >
