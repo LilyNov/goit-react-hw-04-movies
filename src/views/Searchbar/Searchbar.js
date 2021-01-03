@@ -11,7 +11,10 @@ export default function Searchbar({ getMovies }) {
   const location = useLocation();
 
   const handleQueryChange = query => {
-    history.push({ ...location, search: `query=${query}` });
+    history.push({
+      ...location,
+      search: `query=${query}`,
+    });
   };
 
   //получение значения input

@@ -37,6 +37,7 @@ export default function HomePage() {
             {movies.results.map(({ id, title, name, backdrop_path }) => (
               <li className={s.ImageGalleryItem} key={id}>
                 <Link
+                  className={s.link}
                   to={{
                     pathname: `movies/${id}`,
                     state: { from: location },
@@ -47,11 +48,13 @@ export default function HomePage() {
                     src={
                       backdrop_path !== null
                         ? `https://image.tmdb.org/t/p/w500${backdrop_path}`
-                        : 'https://dummyimage.com/640x480/2a2a2a/ffffff&text=Movie+foto'
+                        : 'https://dummyimage.com/480x600/2a2a2a/ffffff&text=Movie+foto'
                     }
                     alt={title}
                   />
-                  {name} {title}
+                  <p className={s.text}>
+                    {name} {title}
+                  </p>
                 </Link>
               </li>
             ))}

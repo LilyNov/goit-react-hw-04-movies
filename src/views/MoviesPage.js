@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
 import { ToastContainer } from 'react-toastify';
-import { Link, useRouteMatch, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Searchbar from './Searchbar/Searchbar';
 import PropTypes from 'prop-types';
 import * as moviesAPI from '../service/home-app';
 import Loader from '../Loader/Loader';
 import StatusError from '../StatusError/StatusError';
+import PartOfCard from './PartOfCard/PartOfCard';
+import s from './HomePage/HomePage.module.css';
 
 export default function MoviesPage() {
   const location = useLocation();
@@ -15,7 +17,6 @@ export default function MoviesPage() {
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState(null);
   const [status, setStatus] = useState('idle');
-  const { url } = useRouteMatch();
 
   useEffect(() => {
     if (!querySearchParams) {
@@ -58,18 +59,15 @@ export default function MoviesPage() {
 
       {status === 'resolved' && (
         <>
-          <ul>
-            {movies.results.map(({ id, title, name }) => (
-              <li key={id}>
-                <Link
-                  to={{
-                    pathname: `${url}/${id}`,
-                    state: { from: location },
-                  }}
-                >
-                  {name} {title}
-                </Link>
-              </li>
+          <ul className={s.ItemList}>
+            {movies.results.map(movie => (
+              <PartOfCard
+                key={movie.id}
+                id={movie.id}
+                title={movie.title}
+                name={movie.name}
+                backdrop={movie.backdrop_path}
+              />
             ))}
           </ul>
         </>

@@ -15,6 +15,7 @@ export default function Reviews() {
     moviesAPI
       .fetchReviews(movieId)
       .then(reviews => {
+        console.log(reviews);
         if (reviews.results.length) {
           setReviews(reviews);
           setStatus('resolved');
@@ -38,8 +39,8 @@ export default function Reviews() {
         <>
           <ul>
             {reviews.results.map(({ id, content }) => (
-              <li key={id}>
-                <p>{content}</p>
+              <li key={id} style={{ listStyle: 'none' }}>
+                <p style={{ color: 'white' }}>{content}</p>
               </li>
             ))}
           </ul>

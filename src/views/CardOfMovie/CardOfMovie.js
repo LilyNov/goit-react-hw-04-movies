@@ -1,12 +1,7 @@
 import { useLocation, useHistory } from 'react-router-dom';
+import s from '../CardOfMovie/CardOfMovie.module.css';
 
-export default function CardOfMovie({
-  title,
-  popularity,
-  release,
-  image,
-  overview,
-}) {
+export default function CardOfMovie({ title, image, overview, part }) {
   const location = useLocation();
   const history = useHistory();
 
@@ -16,14 +11,20 @@ export default function CardOfMovie({
 
   return (
     <>
-      <button type="button" onClick={onGoBack}>
+      <button className={s.btn} type="button" onClick={onGoBack}>
         Back
       </button>
-      <h2>{title}</h2>
-      <img src={image} alt={title} />
-      <p>Popularity {popularity}</p>
-      <p>Release date {release}</p>
-      <p>{overview}</p>
+
+      <section className={s.card}>
+        <img src={image} alt={title} />
+        <div className={s.cardAbout}>
+          <h2 className={s.title}>{title}</h2>
+          <p className={s.text}>
+            {part[0]} {part[1]}
+          </p>
+          <p className={s.text}>{overview}</p>
+        </div>
+      </section>
     </>
   );
 }

@@ -30,6 +30,7 @@ export default function MovieDetailsPage() {
       });
   }, [movieId]);
 
+  console.log(movies);
   return (
     <div>
       {status === 'rejected' && (
@@ -39,31 +40,30 @@ export default function MovieDetailsPage() {
         <>
           <CardOfMovie
             title={movies.title}
-            popularity={movies.popularity}
-            release={movies.release_date}
             image={
               movies.backdrop_path !== null
                 ? movieImg
                 : 'https://dummyimage.com/640x480/2a2a2a/ffffff&text=Foto'
             }
             overview={movies.overview}
+            part={movies.genres.map(movie => movie.name)}
           />
-
-          <NavLink
-            to={`${url}/cast`}
-            className={s.link}
-            activeClassName={s.activeLink}
-          >
-            Cast
-          </NavLink>
-          <NavLink
-            to={`${url}/reviews`}
-            className={s.link}
-            activeClassName={s.activeLink}
-          >
-            Reviews
-          </NavLink>
-          <hr />
+          <section className={s.about}>
+            <NavLink
+              to={`${url}/cast`}
+              className={s.link}
+              activeClassName={s.activeLink}
+            >
+              Cast
+            </NavLink>
+            <NavLink
+              to={`${url}/reviews`}
+              className={s.link}
+              activeClassName={s.activeLink}
+            >
+              Reviews
+            </NavLink>
+          </section>
         </>
       )}
 
