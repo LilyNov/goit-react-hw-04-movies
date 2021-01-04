@@ -20,7 +20,8 @@ export default function CardOfMovie({ title, image, overview, part }) {
         <div className={s.cardAbout}>
           <h2 className={s.title}>{title}</h2>
           <p className={s.text}>
-            {part[0]} {part[1]}
+            {part[0]} <br />
+            {part[1]}
           </p>
           <p className={s.text}>{overview}</p>
         </div>

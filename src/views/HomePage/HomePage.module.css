@@ -20,6 +20,11 @@
   background-color: #fff;
 }
 
+.ImageGalleryItem:hover {
+  transform: scale(1.03);
+  transition: transform 350ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .ImageGalleryItemImage {
   width: 100%;
   height: 260px;
@@ -29,12 +34,13 @@
   transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 .link {
+  cursor: pointer;
   text-decoration: none;
   color: rgb(2, 2, 2);
 }
 
-.link:hover {
-  color: #ff781e;
+.about {
+  display: flex;
 }
 
 .text {
@@ -44,4 +50,20 @@
   padding-left: 15px;
   padding-right: 15px;
   font-size: 14px;
+}
+
+.rating {
+  position: absolute;
+  left: 120px;
+  top: 10px;
+  composes: text;
+  display: block;
+  margin: auto;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  background-color: #ff781e;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  margin-right: 10px;
 }

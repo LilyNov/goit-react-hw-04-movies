@@ -37,30 +37,35 @@ export default function HomePage() {
       {status === 'resolved' && (
         <>
           <ul className={s.ItemList}>
-            {movies.results.map(({ id, title, name, backdrop_path }) => (
-              <li className={s.ImageGalleryItem} key={id}>
-                <Link
-                  className={s.link}
-                  to={{
-                    pathname: `movies/${makeSlug(`${title} ${id}`)}`,
-                    state: { from: location },
-                  }}
-                >
-                  <img
-                    className={s.ImageGalleryItemImage}
-                    src={
-                      backdrop_path !== null
-                        ? `https://image.tmdb.org/t/p/w500${backdrop_path}`
-                        : 'https://dummyimage.com/480x600/2a2a2a/ffffff&text=Movie+foto'
-                    }
-                    alt={title}
-                  />
-                  <p className={s.text}>
-                    {name} {title}
-                  </p>
-                </Link>
-              </li>
-            ))}
+            {movies.results.map(
+              ({ id, title, name, backdrop_path, vote_average }) => (
+                <li className={s.ImageGalleryItem} key={id}>
+                  <Link
+                    className={s.link}
+                    to={{
+                      pathname: `movies/${makeSlug(`${title} ${id}`)}`,
+                      state: { from: location },
+                    }}
+                  >
+                    <img
+                      className={s.ImageGalleryItemImage}
+                      src={
+                        backdrop_path !== null
+                          ? `https://image.tmdb.org/t/p/w500${backdrop_path}`
+                          : 'https://dummyimage.com/480x600/2a2a2a/ffffff&text=Movie+foto'
+                      }
+                      alt={title}
+                    />
+                    <div className={s.about}>
+                      <p className={s.text}>
+                        {name} {title}
+                      </p>
+                      <p className={s.rating}>{vote_average}</p>
+                    </div>
+                  </Link>
+                </li>
+              ),
+            )}
           </ul>
         </>
       )}
