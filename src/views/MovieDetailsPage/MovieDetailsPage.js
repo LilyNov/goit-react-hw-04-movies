@@ -1,4 +1,10 @@
-import { Route, useParams, useRouteMatch, NavLink } from 'react-router-dom';
+import {
+  Route,
+  useParams,
+  useRouteMatch,
+  NavLink,
+  useLocation,
+} from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import * as moviesAPI from '../../service/home-app';
 import StatusError from '../../StatusError/StatusError';
@@ -8,6 +14,7 @@ import Reviews from '../Reviews/Reviews';
 import s from '../MovieDetailsPage/MovieDetailsPage.module.css';
 
 export default function MovieDetailsPage() {
+  const location = useLocation();
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState(null);
   const [status, setStatus] = useState('idle');
@@ -52,14 +59,20 @@ export default function MovieDetailsPage() {
           />
           <section className={s.about}>
             <NavLink
-              to={`${url}/cast`}
+              to={{
+                pathname: `${url}/cast`,
+                state: { from: location },
+              }}
               className={s.link}
               activeClassName={s.activeLink}
             >
               Cast
             </NavLink>
             <NavLink
-              to={`${url}/reviews`}
+              to={{
+                pathname: `${url}/reviews`,
+                state: { from: location },
+              }}
               className={s.link}
               activeClassName={s.activeLink}
             >

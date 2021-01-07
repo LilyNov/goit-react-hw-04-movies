@@ -7,7 +7,8 @@ export default function Reviews() {
   const [reviews, setReviews] = useState([]);
   const [error, setError] = useState(null);
   const [status, setStatus] = useState('idle');
-  const { movieId } = useParams();
+  const { slug } = useParams();
+  const movieId = slug.match(/[a-zA-Z0-9]+$/)[0];
 
   useEffect(() => {
     setStatus('pending');
@@ -15,7 +16,6 @@ export default function Reviews() {
     moviesAPI
       .fetchReviews(movieId)
       .then(reviews => {
-        console.log(reviews);
         if (reviews.results.length) {
           setReviews(reviews);
           setStatus('resolved');
