@@ -6,6 +6,7 @@ import {
   useLocation,
 } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { animateScroll as scroll } from 'react-scroll';
 import * as moviesAPI from '../../service/home-app';
 import StatusError from '../../StatusError/StatusError';
 import CardOfMovie from '../CardOfMovie/CardOfMovie';
@@ -59,6 +60,9 @@ export default function MovieDetailsPage() {
           />
           <section className={s.about}>
             <NavLink
+              onClick={() => {
+                scroll.scrollToBottom();
+              }}
               to={{
                 pathname: `${url}/cast`,
                 state: { from: location },
@@ -69,6 +73,9 @@ export default function MovieDetailsPage() {
               Cast
             </NavLink>
             <NavLink
+              onClick={() => {
+                scroll.scrollToBottom();
+              }}
               to={{
                 pathname: `${url}/reviews`,
                 state: { from: location },

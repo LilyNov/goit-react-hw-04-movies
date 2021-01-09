@@ -12,11 +12,13 @@ export function fetchMoviesSearch(name) {
 }
 
 export function fetchMoviesHomePage() {
-  return fetch(`${BASE_URL}/trending/all/day?api_key=${KEY}`).then(response => {
-    if (response.ok) {
-      return response.json();
-    }
-  });
+  return fetch(`${BASE_URL}/trending/movie/week?api_key=${KEY}`).then(
+    response => {
+      if (response.ok) {
+        return response.json();
+      }
+    },
+  );
 }
 
 export function fetchMoviesInfo(movie_id) {
